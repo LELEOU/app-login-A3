@@ -29,8 +29,8 @@ def index():
         nome = request.form["nome"].strip()
         email = request.form["email"].strip()
         telefone = request.form["telefone"].strip()
-        if not nome or not email or not telefone:
-            erro = "Preencha todos os campos!"
+        if len(nome) < 3 or len(email) < 10 or len(telefone) < 9:
+            erro = "Preencha todos os campos corretamente!"
         else:
             cliente = {
                 "nome": nome,
