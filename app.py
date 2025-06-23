@@ -1,5 +1,4 @@
-
-from flask import Flask, render_template_string, request
+from flask import Flask, render_template_string, request, redirect, url_for
 
 app = Flask(__name__)
 clientes = []
@@ -32,6 +31,7 @@ def index():
             "telefone": request.form["telefone"]
         }
         clientes.append(cliente)
+        return redirect(url_for('index'))  # Evita duplicar a droga dos dados salvos no formulário
     return render_template_string(HTML, clientes=clientes)
 
 if __name__ == "__main__":
