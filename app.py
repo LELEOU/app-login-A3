@@ -45,5 +45,9 @@ def index():
     {% endif %}
     """, clientes=clientes, erro=erro)
 
+@app.route("/limpar", methods=["GET"]) # aqui limpa o formulari ora nao ficar cheio de coisas
+def limpar():
+    clientes.clear()
+    return redirect(url_for('index'))
 if __name__ == "__main__":
     app.run()
