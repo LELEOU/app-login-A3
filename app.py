@@ -24,15 +24,26 @@ HTML = """
 
 @app.route("/", methods=["GET", "POST"])
 def index():
+    erro = None
     if request.method == "POST":
-        cliente = {
-            "nome": request.form["nome"],
-            "email": request.form["email"],
-            "telefone": request.form["telefone"]
-        }
-        clientes.append(cliente)
-        return redirect(url_for('index'))  # Evita duplicar a droga dos dados salvos no formulário
-    return render_template_string(HTML, clientes=clientes)
+        nome = request.form["nome"].strip()
+        email = request.form["email"].strip()
+        telefone = request.form["telefone"].strip()
+        if not nome or not email or not telefone:
+            erro = "Preencha todos os campos!"
+        else:
+            cliente = {
+                "nome": nome,
+                "email": email,
+                "telefone": telefone
+            }
+            clientes.append(cliente)
+            return redirect(url_for('index')) # Evita duplicar a droga dos dados salvos no formulário
+    return render_template_string(HTML + """
+    {% if erro %}
+      <p style="color:red;">{{ erro }}</p>
+    {% endif %}
+    """, clientes=clientes, erro=erro)
 
 if __name__ == "__main__":
     app.run()
